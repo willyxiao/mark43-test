@@ -1,10 +1,11 @@
 class WordsController < ApplicationController
   before_action do 
-    @words = ApplicationHelper.get_text.downcase.gsub(/[^a-z0-9\s]/i, '').split
+    @words = @text.downcase.gsub(/[^a-z0-9\s]/i, '').split
   end
   
   def avg_len
-    render json: @words.map(&:length).sum / @words.size.to_f
+    render json: (@words.map(&:length).sum / @words.size.to_f).
+      round(2)
   end
 
   def most_com

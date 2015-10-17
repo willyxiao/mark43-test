@@ -2,7 +2,7 @@ class SentencesController < ApplicationController
     SENTENCE_REGEX = /[^\.!?]+[\.!?]/
 
     before_action do 
-        @text = ApplicationHelper.get_text 
+        @text = params.require(:text)
     end
 
     def avg_len
