@@ -1,14 +1,14 @@
 class WordsController < ApplicationController
   before_action do 
-    @text = ApplicationHelper.get_text 
+    @words = ApplicationHelper.get_text.downcase.gsub(/[^a-z0-9\s]/i, '').split
   end
   
   def avg_len
-    render json: @text.split.size
+    render json: @words.map(&:length).sum / @words.size.to_f
   end
 
   def most_com
-    words_grp = @text.split.
+    words_grp = @words.
       group_by{ |word| word }
     
     max_size = words_grp.max_by{ |lst| lst.size }.size
@@ -20,7 +20,7 @@ class WordsController < ApplicationController
   end
 
   def median
-    words_grp = @text.split.
+    words_grp = @words.
       group_by{ |word| word }.
       sort_by{ |word, lst| lst.size }.
       to_h
